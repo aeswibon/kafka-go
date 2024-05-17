@@ -1,0 +1,27 @@
+version: "3"
+tasks:
+  default:
+    desc: List all tasks
+    cmds:
+      - task --list
+  proto:
+    desc: Generate proto files
+    cmds:
+      - protoc --go_out=. --go-grpc_out=. proto/*.proto
+  broker:
+    desc: Start the broker service
+    cmds:
+      - go run cmd/broker/main.go
+  producer:
+    desc: Start the producer service
+    cmds:
+      - go run cmd/producer/main.go updates "Hello World!" 1
+      - go run cmd/producer/main.go updates "Hi" 2
+  consumer:
+    desc: Start the consumer service
+    cmds:
+      - go run cmd/consumer/main.go updates
+  start:
+    desc: Start all the services
+    cmds:
+      - task --parallel broker producer consumer

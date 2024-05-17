@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+option go_package = "./pkg/messaging";
+
+package messaging;
+
+message PublishRequest {
+  string topic = 1;
+  string message = 2;
+  int32 priority = 3; // Priority of the message - 0 (lowest) to 10 (highest)
+}
+
+message PublishResponse {
+  bool success = 1;
+}
+
+message SubscribeRequest {
+  string topic = 1;
+}
+
+message SubscribeResponse {
+  string message = 1;
+  int32 priority = 2;
+}
+
+service Broker {
+  rpc Publish(PublishRequest) returns (PublishResponse);
+  rpc Subscribe(SubscribeRequest) returns (stream SubscribeResponse);
+}
